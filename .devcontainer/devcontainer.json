@@ -6,12 +6,14 @@
     "WORKSPACE_DIR": "${containerWorkspaceFolder}",
     "PROMPT_COMMAND": "history -a"
   },
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/zmk,type=bind",
+  "workspaceFolder": "/workspaces",
   "mounts": [
     "type=volume,source=zmk-root-user,target=/root",
     "type=volume,source=zmk-config,target=/workspaces/zmk-config",
-    "type=volume,source=zmk-zephyr,target=${containerWorkspaceFolder}/zephyr",
-    "type=volume,source=zmk-zephyr-modules,target=${containerWorkspaceFolder}/modules",
-    "type=volume,source=zmk-zephyr-tools,target=${containerWorkspaceFolder}/tools"
+    "type=volume,source=zmk-zephyr,target=/workspaces/zmk/zephyr",
+    "type=volume,source=zmk-zephyr-modules,target=/workspaces/zmk/modules",
+    "type=volume,source=zmk-zephyr-tools,target=/workspaces/zmk/tools"
   ],
   "extensions": ["ms-vscode.cpptools"],
   "settings": {
