@@ -26,6 +26,7 @@ struct bvd_config {
     struct gpio_dt_spec power;
     uint32_t output_ohm;
     uint32_t full_ohm;
+    uint8_t oversampling;
 };
 
 struct bvd_data {
