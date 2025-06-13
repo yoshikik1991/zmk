@@ -150,6 +150,7 @@ static int bvd_init(const struct device *dev) {
         .gain = ADC_GAIN_1_6,
         .reference = ADC_REF_INTERNAL,
         .acquisition_time = ADC_ACQ_TIME(ADC_ACQ_TIME_MICROSECONDS, 40),
+        .channel_id = drv_cfg->io_channel.channel,
         .input_positive = SAADC_CH_PSELP_PSELP_AnalogInput0 + drv_cfg->io_channel.channel,
     };
     drv_data->as.resolution = 12;
