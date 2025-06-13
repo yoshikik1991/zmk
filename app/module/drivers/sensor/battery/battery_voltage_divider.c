@@ -165,7 +165,7 @@ static int bvd_init(const struct device *dev) {
     struct k_poll_event async_evt = K_POLL_EVENT_INITIALIZER(K_POLL_TYPE_SIGNAL,
                                                              K_POLL_MODE_NOTIFY_ONLY,
                                                              &drv_data->async_sig);
-    data->async_evt = async_evt;
+    drv_data->async_evt = async_evt;
 #endif
     
     return rc;
