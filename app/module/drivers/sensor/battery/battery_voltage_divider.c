@@ -131,7 +131,7 @@ static int bvd_init(const struct device *dev) {
 #endif // DT_INST_NODE_HAS_PROP(0, power_gpios)
 
     drv_data->as = (struct adc_sequence){
-        .channels = BIT(2),
+        .channels = BIT(0),
         .buffer = &drv_data->value.adc_raw,
         .buffer_size = sizeof(drv_data->value.adc_raw),
         .oversampling = 0,
