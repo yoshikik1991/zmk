@@ -110,6 +110,7 @@ static const struct sensor_driver_api bvd_api = {
 static int bvd_init(const struct device *dev) {
     struct bvd_data *drv_data = dev->data;
     const struct bvd_config *drv_cfg = dev->config;
+    uint32_t ch_mask = 0;
 
     if (drv_data->adc == NULL) {
         LOG_ERR("ADC failed to retrieve ADC driver");
@@ -129,9 +130,11 @@ static int bvd_init(const struct device *dev) {
         return rc;
     }
 #endif // DT_INST_NODE_HAS_PROP(0, power_gpios)
-
+    
+    ch_mask |= BIT(drv_cfg->io_channel.channel);
+    
     drv_data->as = (struct adc_sequence){
-        .channels = BIT(0),
+        .channels = ch_mask,
         .buffer = &drv_data->value.adc_raw,
         .buffer_size = sizeof(drv_data->value.adc_raw),
         .oversampling = 0,
@@ -145,15 +148,22 @@ static int bvd_init(const struct device *dev) {
         .acquisition_time = ADC_ACQ_TIME(ADC_ACQ_TIME_MICROSECONDS, 40),
         .input_positive = SAADC_CH_PSELP_PSELP_AnalogInput0 + drv_cfg->io_channel.channel,
     };
-
     drv_data->as.resolution = 12;
 #else
 #error Unsupported ADC
 #endif
-
+    
     rc = adc_channel_setup(drv_data->adc, &drv_data->acc);
     LOG_DBG("AIN%u setup returned %d", drv_cfg->io_channel.channel, rc);
 
+#ifdef CONFIG_ADC_ASYNC
+    k_poll_signal_init(&data->async_sig);
+    struct k_poll_event async_evt = K_POLL_EVENT_INITIALIZER(K_POLL_TYPE_SIGNAL,
+                                                             K_POLL_MODE_NOTIFY_ONLY,
+                                                             &data->async_sig);
+    data->async_evt = async_evt;
+#endif
+    
     return rc;
 }
 
