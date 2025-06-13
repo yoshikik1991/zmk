@@ -185,7 +185,7 @@ static const struct bvd_config bvd_cfg = {
 #endif
     .output_ohm = DT_INST_PROP(0, output_ohms),
     .full_ohm = DT_INST_PROP(0, full_ohms),
-    .oversampling = DT_INST_PROP(0, oversampling, 4),
+    .oversampling = DT_INST_PROP_OR(0, oversampling, 4),
 };
 
 DEVICE_DT_INST_DEFINE(0, &bvd_init, NULL, &bvd_data, &bvd_cfg, POST_KERNEL,
