@@ -33,6 +33,10 @@ struct bvd_data {
     struct adc_channel_cfg acc;
     struct adc_sequence as;
     struct battery_value value;
+#if CONFIG_ADC_ASYNC
+    struct k_poll_signal async_sig;
+    struct k_poll_event async_evt;
+#endif
 };
 
 static int bvd_sample_fetch(const struct device *dev, enum sensor_channel chan) {
